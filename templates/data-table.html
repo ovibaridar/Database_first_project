@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Database Project</title>
+
+  <!-- Font Awesome 6 cdn -->
+  <link rel="stylesheet" href="static/fontawesome.min.css">
+  <script src="static/all.min.js"></script>
+
+  <!-- Bootstarp css cdn -->
+  <link rel="stylesheet" href="static/bootstrap.min.css">
+
+  <style>
+    body {
+      background: rgb(235, 221, 221);
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- Nav Start -->
+    <nav class="navbar navbar-expand-lg bg-success navbar-dark fixed-top">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav m-auto">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page"  href="{{url_for('home')}}">RegForm</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active"  href="{{url_for('dash')}}">DataTable</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Nav End -->
+  </header>
+
+  <main> 
+    <div class="container-fluid" style="margin-top: 80px"><!-- container start -->
+     <!-- search-bar start -->
+     <div class="search-bar mb-4 container">
+       <input type="text" class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search for name">
+   </div>
+
+   <!-- search-bar end -->
+      {%if idnotmatch %}<p align="center" style="color:red">{{idnotmatch}}</p>{%endif%}
+      <table class="table table-success table-striped" style="width:100%" id="myTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Batch</th>
+            <th>Student ID</th>
+            <th>Semester</th>
+            <th>Gender</th>
+            <th>Email address</th>
+            <th>Address</th>
+            <th>Photo</th>
+            <th style="width: 200px;">Action</th>
+          </tr>
+        </thead>
+
+        {%for student_all_data in datas%}
+        <tbody>
+          <tr>
+            <td>{{student_all_data[0]}} </td>
+            <td>{{student_all_data[1]}}</td>
+            <td>{{student_all_data[2]}}</td>
+            <td>{{student_all_data[3]}}</td>
+            <td>{{student_all_data[4]}}</td>
+            <td>{{student_all_data[5]}}</td>
+            <td>{{student_all_data[7]}}</td>
+            <td><img src="static/img/{{student_all_data[8]}}" style="height:100px; width:100px;padding: 5px" alt="Image"></td>
+
+            <td>
+              <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#exampleModa2{{student_all_data[2]}}" style="width:80px; margin-bottom: 10px">
+                <a href="#" class="text-white text-decoration-none">
+                  <span><i class="fa-solid fa-pen-to-square"></i></span> <span>Edit</span> </a>
+              </button>
+
+              <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{student_all_data[2]}}"
+                style="width:80px; margin-bottom: 10px">
+                <a href="#" class="text-white text-decoration-none">
+                  <span><i class="fa-solid fa-trash-can"></i></span> <span>Delete</span> </a>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        {%endfor%}
+      </table>
+
+      <!-- Edit Data Modal start -->
+      {%for student_all_data in datas%}
+           <div class="modal fade" id="exampleModa2{{student_all_data[2]}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+           <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+
+                 <form class="px-4" action="http://127.0.0.1:8111/edit" method="post" enctype="multipart/form-data">
+                   <div class="mb-3">
+                     <label class="form-label ">Name</label>
+                     <input type="text" class="form-control" name="name" value="{{student_all_data[0]}}">
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Batch </label>
+                     <select class="form-select" aria-label="Default select example" name="batch" >
+                       <option selected>{{student_all_data[1]}}</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+                       <option value="5">5</option>
+                       <option value="6">6</option>
+                       <option value="7">7</option>
+                       <option value="8">8</option>
+                       <option value="9">9</option>
+                       <option value="10">10</option>
+                       <option value="11">11</option>
+                       <option value="12">12</option>
+                       <option value="13">13</option>
+                       <option value="14">14</option>
+                       <option value="15">15</option>
+                       <option value="16">16</option>
+                       <option value="17">17</option>
+                       <option value="18">18</option>
+                       <option value="19">19</option>
+                       <option value="20">20</option>
+                       <option value="21">21</option>
+                     </select>
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label ">Student ID</label>
+                     <input type="number" class="form-control" name="id" value="{{student_all_data[2]}}" readonly>
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Semester </label>
+                     <select class="form-select" aria-label="Default select example" name="semester">
+                       <option selected>{{student_all_data[3]}}</option>
+                       <option value="1st">1st</option>
+                       <option value="2nd">2nd</option>
+                       <option value="3rd">3rd</option>
+                       <option value="4th">4th</option>
+                       <option value="5th">5th</option>
+                       <option value="6th">6th</option>
+                       <option value="7th">7th</option>
+                       <option value="8th">8th</option>
+                     </select>
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Gender </label>
+                     <div class="form-check">
+                      {% if student_all_data[4] =="Male" %}
+                       <input class="form-check-input" type="radio" name="gender"  value="Male" checked> Male<br>
+                       <input class="form-check-input" type="radio" name="gender" value="Female"> Female
+                       {%else%}
+                       <input class="form-check-input" type="radio" name="gender" value="Male" > Male<br>
+                       <input class="form-check-input" type="radio" name="gender" checked value="Female"> Female
+                       {%endif%}
+                     </div>
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Email address</label>
+                     <input type="email" class="form-control" name="email" value="{{student_all_data[5]}}">
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Old Password </label>
+                     <input type="text" class="form-control"  placeholder="Old Password" name="oldpass">
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">New Password </label>
+                     <input type="text" class="form-control"  placeholder="New Password" name="newpass">
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Confirm Password </label>
+                     <input type="text" class="form-control"  placeholder="Confirm Password" name="cnewpass">
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Address</label>
+                     <div class="form-floating">
+                       <input type="text" class="form-control"   name="address" value="{{student_all_data[7]}}">
+                     </div>
+                   </div>
+                   <div class="mb-3">
+                     <label class="form-label">Photo</label><br>
+                     <img src="static/img/{{student_all_data[8]}}" alt="Image"
+                       style="height: 100px; width: 100px; padding: 10px;">
+                     <input class="form-control" type="file" id="" name="photo">
+                   </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                     <button  class="btn btn-primary btn-sm">Save Change</button>
+                   </div>
+                 </form>
+               </div>
+
+             </div>
+           </div>
+         </div>
+      {%endfor%}
+      <!-- Edit Data Modal end -->
+
+      <!--Delete data Modal start -->
+        {%for student_all_data in datas%}
+      <div class="modal fade" id="exampleModal{{student_all_data[2]}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" >Delete Data</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete?</p>
+          </div>
+          <form action="http://127.0.0.1:8111/delete" method="post">
+            <div class="mb-3">
+              <label class="form-label">&nbsp;&nbsp;&nbsp;&nbsp;Student Id</label>
+              <input type="text" class="form-control" name="ID" value="{{student_all_data[2]}}" readonly >
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            <button  class="btn btn-primary btn-sm">Delete</button>
+          </div>
+            </form>
+        </div>
+      </div>
+    </div>
+      {%endfor%}
+
+    <!--Delete data Modal end-->
+    </div><!-- container end -->
+  </main>
+  <script>
+function myFunction() {
+
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+
+  <!-- Bootstarp js cdn -->
+  <script src="static/bootstrap.bundle.min.js"></script>
+</body>
+
+
+</html>
